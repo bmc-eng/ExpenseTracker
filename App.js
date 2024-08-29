@@ -49,7 +49,7 @@ export default function App() {
           <Stack.Screen name="ManageExpense" component={ManageExpenses} />
         </Stack.Navigator>
       </NavigationContainer>
-      <StatusBar style="white" />
+      <StatusBar style="light" />
     </>
   );
 }
