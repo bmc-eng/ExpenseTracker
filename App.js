@@ -7,6 +7,7 @@ import ManageExpenses from './screens/ManageExpenses';
 import RecentExpenses from './screens/RecentExpenses';
 import AllExpenses from './screens/AllExpenses';
 import { GlobalStyles } from './constants/styles';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -25,6 +26,16 @@ function ExpensesOverview() {
         title: 'Recent Expenses',
         tabBarLabel: 'Recent',
         tabBarIcon: ({ color, size }) => <Ionicons name='hourglass' focused={true} size={size} color={color} />,
+        headerRight: () => (
+          <Pressable
+            onPress={() => alert('This is a button!')}
+          >
+            <View style={styles.addButton}>
+              <Ionicons name='add' focused={true} size='30' color='#fff' />
+            </View>
+
+          </Pressable>
+        ),
       }} />
     <BottomTabs.Screen
       name="AllExpenses"
@@ -53,4 +64,10 @@ export default function App() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  addButton: {
+    paddingRight: 20
+  }
+})
 
