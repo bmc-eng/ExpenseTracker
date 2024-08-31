@@ -1,9 +1,9 @@
 import { Pressable, View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
 
-function AddExpenseButton () {
+function AddExpenseButton ({onClick}) {
     return <Pressable
-    onPress={() => alert('This is a button!')}
+    onPress={onClick}
   >
     <View style={styles.addButton}>
       <Ionicons name='add' focused={true} size='30' color='#fff' />

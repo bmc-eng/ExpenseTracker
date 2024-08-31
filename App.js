@@ -12,7 +12,12 @@ import AddExpenseButton from './components/AddExpenseButton';
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
 
-function ExpensesOverview() {
+function ExpensesOverview({ navigation }) {
+
+  function manageExpenseClicked() {
+    navigation.navigate("ManageExpense")
+  }
+
   return <BottomTabs.Navigator screenOptions={{
     headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
     headerTintColor: 'white',
@@ -27,7 +32,7 @@ function ExpensesOverview() {
         tabBarLabel: 'Recent',
         tabBarIcon: ({ color, size }) => <Ionicons name='hourglass' focused={true} size={size} color={color} />,
         headerRight: () => (
-          <AddExpenseButton />
+          <AddExpenseButton onClick={manageExpenseClicked}/>
         ),
       }} />
     <BottomTabs.Screen
@@ -38,7 +43,7 @@ function ExpensesOverview() {
         tabBarLabel: 'All Expenses',
         tabBarIcon: ({ color, size }) => <Ionicons name='calendar' size={size} color={color} />,
         headerRight: () => (
-          <AddExpenseButton />
+          <AddExpenseButton onClick={manageExpenseClicked}/>
         )
       }} />
   </BottomTabs.Navigator>
