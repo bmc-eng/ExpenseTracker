@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
     },
     period: {
         fontSize:12,
-        color: GlobalStyles.colors.primary400
+        color: GlobalStyles.colors.primary400,
+        fontWeight: 'bold'
     },
     sum: {
         fontSize: 16,
