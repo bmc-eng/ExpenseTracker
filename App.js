@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons'
-import ManageExpenses from './screens/ManageExpenses';
+import ManageExpense from './screens/ManageExpense';
 import RecentExpenses from './screens/RecentExpenses';
 import AllExpenses from './screens/AllExpenses';
 import { GlobalStyles } from './constants/styles';
@@ -32,7 +32,7 @@ function ExpensesOverview({ navigation }) {
         tabBarLabel: 'Recent',
         tabBarIcon: ({ color, size }) => <Ionicons name='hourglass' focused={true} size={size} color={color} />,
         headerRight: () => (
-          <AddExpenseButton onClick={manageExpenseClicked}/>
+          <AddExpenseButton onClick={manageExpenseClicked} />
         ),
       }} />
     <BottomTabs.Screen
@@ -43,7 +43,7 @@ function ExpensesOverview({ navigation }) {
         tabBarLabel: 'All Expenses',
         tabBarIcon: ({ color, size }) => <Ionicons name='calendar' size={size} color={color} />,
         headerRight: () => (
-          <AddExpenseButton onClick={manageExpenseClicked}/>
+          <AddExpenseButton onClick={manageExpenseClicked} />
         )
       }} />
   </BottomTabs.Navigator>
@@ -53,12 +53,20 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName='ExpensesOverview'>
+        <Stack.Navigator initialRouteName='ExpensesOverview'
+          screenOptions={{
+            headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+            headerTintColor: 'white',
+            headerBackTitle: 'Back'
+          }}>
           <Stack.Screen name="ExpensesOverview"
             component={ExpensesOverview}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="ManageExpense" component={ManageExpenses} />
+          <Stack.Screen
+            name="ManageExpense"
+            component={ManageExpense}
+            options={{ presentation: 'modal' }} />
         </Stack.Navigator>
       </NavigationContainer>
       <StatusBar style="light" />
