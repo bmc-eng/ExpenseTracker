@@ -5,11 +5,13 @@ import { useNavigation } from "@react-navigation/native";
 
 
 
-function ExpenseItem({ description, amount, date }) {
+function ExpenseItem({ id, description, amount, date }) {
     const navigation = useNavigation()
 
     function expenseItemPressed() {
-        navigation.navigate("ManageExpense")
+        navigation.navigate("ManageExpense", {
+            expenseId: id
+        })
     }
 
     return <Pressable

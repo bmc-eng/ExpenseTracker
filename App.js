@@ -15,7 +15,9 @@ const BottomTabs = createBottomTabNavigator();
 function ExpensesOverview({ navigation }) {
 
   function manageExpenseClicked() {
-    navigation.navigate("ManageExpense")
+    navigation.navigate("ManageExpense", {
+      expenseId: 'NEW'
+    })
   }
 
   return <BottomTabs.Navigator screenOptions={{
