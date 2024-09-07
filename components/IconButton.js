@@ -1,7 +1,7 @@
 import { Pressable, View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
 
-function AddExpenseButton ({onClick}) {
+function IconButton ({icon, onClick}) {
     return <Pressable
     onPress={onClick}
   >
@@ -12,7 +12,7 @@ function AddExpenseButton ({onClick}) {
   </Pressable>
 }
 
-export default AddExpenseButton;
+export default IconButton;
 
 const styles = StyleSheet.create({
     addButton: {

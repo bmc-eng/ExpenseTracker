@@ -1,13 +1,22 @@
-import {Text } from 'react-native';
+import { useLayoutEffect } from 'react';
+import { Text, View } from 'react-native';
 
-function ManageExpense({route, navigation}) {
+function ManageExpense({ route, navigation }) {
     const expenseIdSelected = route.params.expenseId;
 
-    navigation.setOptions({
-        title: expenseIdSelected === 'NEW' ? "Add Expense" : "Manage Expense"
-    })
+    
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: expenseIdSelected === 'NEW' ? 'Add Expense' : 'Manage Expense',
+        })
+    }, [navigation]);
+    
 
-    return <Text>Manage Expenses Screen: {expenseIdSelected}</Text>;
+    return <View>
+        <Text>Manage Expenses Screen: {expenseIdSelected} </Text>
+    </View>
+    
+    
 }
 
 export default ManageExpense;

@@ -7,7 +7,7 @@ import ManageExpense from './screens/ManageExpense';
 import RecentExpenses from './screens/RecentExpenses';
 import AllExpenses from './screens/AllExpenses';
 import { GlobalStyles } from './constants/styles';
-import AddExpenseButton from './components/AddExpenseButton';
+import IconButton from './components/IconButton';
 
 const Stack = createNativeStackNavigator();
 const BottomTabs = createBottomTabNavigator();
@@ -16,7 +16,7 @@ function ExpensesOverview({ navigation }) {
 
   function manageExpenseClicked() {
     navigation.navigate("ManageExpense", {
-      expenseId: 'NEW'
+      expenseId: "NEW"
     })
   }
 
@@ -34,7 +34,7 @@ function ExpensesOverview({ navigation }) {
         tabBarLabel: 'Recent',
         tabBarIcon: ({ color, size }) => <Ionicons name='hourglass' focused={true} size={size} color={color} />,
         headerRight: () => (
-          <AddExpenseButton onClick={manageExpenseClicked} />
+          <IconButton icon='add' onClick={manageExpenseClicked} />
         ),
       }} />
     <BottomTabs.Screen
@@ -45,7 +45,7 @@ function ExpensesOverview({ navigation }) {
         tabBarLabel: 'All Expenses',
         tabBarIcon: ({ color, size }) => <Ionicons name='calendar' size={size} color={color} />,
         headerRight: () => (
-          <AddExpenseButton onClick={manageExpenseClicked} />
+          <IconButton icon='add' onClick={manageExpenseClicked} />
         )
       }} />
   </BottomTabs.Navigator>
