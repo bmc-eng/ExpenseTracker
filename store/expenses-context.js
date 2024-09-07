@@ -29,13 +29,13 @@ const TEST_EXPENSES = [
         id: 'e5',
         description: 'a book',
         amount: 24.99,
-        date: new Date('2024-08-13')
+        date: new Date('2024-09-02')
     },
     {
         id: 'e6',
         description: 'another book',
         amount: 12.50,
-        date: new Date('2024-08-10')
+        date: new Date('2024-09-05')
     }
 ]
 

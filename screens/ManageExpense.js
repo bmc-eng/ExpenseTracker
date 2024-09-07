@@ -15,13 +15,17 @@ function ManageExpense({ route, navigation }) {
         })
     }, [navigation]);
 
-    function deleteExpense() { }
+    function deleteExpense() {
+        navigation.goBack();
+     }
 
     function cancelHandler() {
-        navigation.goBack()
+        navigation.goBack();
     }
 
-    function confirmHandler() {}
+    function confirmHandler() {
+        navigation.goBack();
+    }
 
 
     return <View style={styles.container}>
