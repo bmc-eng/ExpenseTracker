@@ -34,7 +34,7 @@ function ExpensesOverview({ navigation }) {
         tabBarLabel: 'Recent',
         tabBarIcon: ({ color, size }) => <Ionicons name='hourglass' focused={true} size={size} color={color} />,
         headerRight: () => (
-          <IconButton icon='add' onClick={manageExpenseClicked} />
+          <IconButton icon='add' onClick={manageExpenseClicked} color='#fff' size='30' />
         ),
       }} />
     <BottomTabs.Screen
@@ -45,7 +45,7 @@ function ExpensesOverview({ navigation }) {
         tabBarLabel: 'All Expenses',
         tabBarIcon: ({ color, size }) => <Ionicons name='calendar' size={size} color={color} />,
         headerRight: () => (
-          <IconButton icon='add' onClick={manageExpenseClicked} />
+          <IconButton icon='add' onClick={manageExpenseClicked} color='#fff' size='30'/>
         )
       }} />
   </BottomTabs.Navigator>
