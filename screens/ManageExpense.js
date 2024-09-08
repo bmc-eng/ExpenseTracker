@@ -1,12 +1,15 @@
-import { useLayoutEffect } from 'react';
+import { useContext, useLayoutEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import IconButton from '../components/UI/IconButton';
 import { GlobalStyles } from '../constants/styles';
 import Button from '../components/UI/Button';
+import { ExpensesContext } from '../store/expenses-context';
 
 function ManageExpense({ route, navigation }) {
     const expenseIdSelected = route.params.expenseId;
     const isEditing = expenseIdSelected !== 'NEW'
+
+    const expensesCtx = useContext(ExpensesContext);
 
 
     useLayoutEffect(() => {
@@ -16,14 +19,30 @@ function ManageExpense({ route, navigation }) {
     }, [navigation]);
 
     function deleteExpense() {
+        expensesCtx.deleteExpense(expenseIdSelected);
+        alert("Expense deleted");
         navigation.goBack();
-     }
+    }
 
     function cancelHandler() {
         navigation.goBack();
     }
 
     function confirmHandler() {
+        const confirmDate = new Date('2024-09-08');
+        console.log(isEditing)
+        if (isEditing) {
+            expensesCtx.updateExpense(expenseIdSelected,
+                {
+                    description: 'Updated expense',
+                    amount: 29.99,
+                    date: confirmDate,
+                }
+            );
+        } else {
+            const newExpense = { description: 'Test expense', amount: 19.99, date: confirmDate }
+            expensesCtx.addExpense(newExpense);
+        }
         navigation.goBack();
     }
 
@@ -71,12 +90,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     titleText: {
-        fontSize:16,
-        fontWeight:'bold',
-        color:'white'
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: 'white'
     },
     button: {
         minWidth: 120,
-        marginHorizontal:8,
+        marginHorizontal: 8,
     }
 })
