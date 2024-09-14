@@ -4,6 +4,7 @@ import IconButton from '../components/UI/IconButton';
 import { GlobalStyles } from '../constants/styles';
 import Button from '../components/UI/Button';
 import { ExpensesContext } from '../store/expenses-context';
+import ExpenseForm from '../components/ManageExpense/ExpenseForm';
 
 function ManageExpense({ route, navigation }) {
     const expenseIdSelected = route.params.expenseId;
@@ -48,10 +49,13 @@ function ManageExpense({ route, navigation }) {
 
 
     return <View style={styles.container}>
-        <Text style={styles.titleText}>Manage Expenses Screen: {expenseIdSelected} </Text>
-        <View style={styles.buttonContainer}>
-            <Button style={styles.button} mode='flat' onPress={cancelHandler}>Cancel</Button>
-            <Button style={styles.button} onPress={confirmHandler}>{isEditing ? 'Update' : 'Add'}</Button>
+        <Text style={styles.titleText}>Your Expense</Text>
+        <View style={styles.form}>
+            <ExpenseForm
+                buttonName={isEditing ? 'Update' : 'Add'}
+                cancelHandler={cancelHandler}
+                confirmHandler={confirmHandler}
+            />
         </View>
         {isEditing && (
             <View style={styles.deleteContainer}>
@@ -66,7 +70,6 @@ function ManageExpense({ route, navigation }) {
         }
     </View>
 
-
 }
 
 export default ManageExpense;
@@ -74,28 +77,29 @@ export default ManageExpense;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 24,
+        paddingHorizontal: 24,
+        paddingTop: 60,
         backgroundColor: GlobalStyles.colors.primary800,
     },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignContent: 'center',
-    },
+
     deleteContainer: {
         marginTop: 16,
         paddingTop: 8,
+        paddingBottom: 40,
         borderTopWidth: 2,
         borderTopColor: GlobalStyles.colors.primary200,
         alignItems: 'center',
+
     },
     titleText: {
-        fontSize: 16,
+        fontSize: 24,
         fontWeight: 'bold',
-        color: 'white'
+        color: 'white',
+        justifyContent: 'center',
+        textAlign: 'center',
+        topMargin: 60,
     },
-    button: {
-        minWidth: 120,
-        marginHorizontal: 8,
+    form: {
+        flex: 1,
     }
 })
