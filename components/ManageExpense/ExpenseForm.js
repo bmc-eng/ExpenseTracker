@@ -2,9 +2,26 @@ import { StyleSheet, View } from "react-native";
 import ExpenseInput from "./ExpenseInput";
 import Button from "../UI/Button";
 import { GlobalStyles } from "../../constants/styles";
+import { useState } from "react";
 
 
 function ExpenseForm({ cancelHandler, confirmHandler, buttonName }) {
+
+    const [formState, setFormState] =  useState({
+        amount: '',
+        date:'',
+        description: ''
+    });
+
+    function formChangeHandler(identifier, value){
+        setFormState((curInputValues) => {
+            return {
+                ...curInputValues,
+                [identifier]: value
+            }
+        })
+    }
+
     return <View style={styles.container}>
         <View style={styles.topRow}>
             <ExpenseInput
@@ -12,18 +29,24 @@ function ExpenseForm({ cancelHandler, confirmHandler, buttonName }) {
                 textInputOptions={{
                     autoComplete: 'off',
                     keyboardType: 'numbers-and-punctuation',
-                    placeholder: 'YYYY-MM-DD'
+                    placeholder: 'YYYY-MM-DD',
+                    onChangeText: formChangeHandler.bind(this, 'date'),
+                    value: formState.date
                 }} />
             <ExpenseInput name='Amount:'
                 textInputOptions={{
                     keyboardType: 'decimal',
                     placeholder: '0.00',
                     inputMode: 'decimal',
+                    onChangeText: formChangeHandler.bind(this, 'amount'),
+                    value: formState.amount
                 }} />
         </View>
         <View style={styles.bottomRow}>
             <ExpenseInput name='Description:' textInputOptions={{
                 multiline: true,
+                onChangeText: formChangeHandler.bind(this, 'description'),
+                value: formState.description
             }} />
         </View>
         <View style={styles.buttonContainer}>

@@ -3,7 +3,6 @@ import { GlobalStyles } from "../../constants/styles";
 
 function ExpenseInput({ name, textInputOptions }) {
 
-
     return <View style={styles.container}>
         <Text style={styles.text}>{name}</Text>
         <TextInput
