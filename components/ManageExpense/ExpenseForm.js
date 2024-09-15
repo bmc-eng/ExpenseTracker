@@ -5,7 +5,7 @@ import { GlobalStyles } from "../../constants/styles";
 import { useState } from "react";
 
 
-function ExpenseForm({ cancelHandler, confirmHandler, buttonName }) {
+function ExpenseForm({ cancelHandler, onSubmit, buttonName }) {
 
     const [formState, setFormState] =  useState({
         amount: '',
@@ -20,6 +20,15 @@ function ExpenseForm({ cancelHandler, confirmHandler, buttonName }) {
                 [identifier]: value
             }
         })
+    }
+
+    function submitHandler(){
+        const expenseData = {
+            amount: +formState.amount,
+            date: new Date(formState.date),
+            description: formState.description
+        }
+        onSubmit(expenseData)
     }
 
     return <View style={styles.container}>
@@ -51,7 +60,7 @@ function ExpenseForm({ cancelHandler, confirmHandler, buttonName }) {
         </View>
         <View style={styles.buttonContainer}>
             <Button style={styles.button} mode='flat' onPress={cancelHandler}>Cancel</Button>
-            <Button style={styles.button} onPress={confirmHandler}>{buttonName}</Button>
+            <Button style={styles.button} onPress={submitHandler}>{buttonName}</Button>
         </View>
         
 
