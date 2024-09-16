@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import ExpenseInput from "./ExpenseInput";
 import Button from "../UI/Button";
 import { GlobalStyles } from "../../constants/styles";
@@ -27,6 +27,16 @@ function ExpenseForm({ cancelHandler, onSubmit, buttonName }) {
             amount: +formState.amount,
             date: new Date(formState.date),
             description: formState.description
+        }
+
+        // validate the expenses
+        const isValidAmount = !isNaN(expenseData.amount) && expenseData.amount > 0;
+        const isValidDate = expenseData.date.toString() !== 'Invalid Date';
+        const isValidDescription = expenseData.description.length > 0;
+
+        if (!isValidAmount || !isValidDate || !isValidDescription) {
+            Alert.alert("Please enter in valid expense data.")
+            return
         }
         onSubmit(expenseData)
     }
