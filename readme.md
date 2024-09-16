@@ -1,6 +1,6 @@
-# Expenses App
+# Expense Tracking App
 
-This is my implementation of React Native - A Practical Guide expense tracking app. 
+This is an implementation of React Native - A Practical Guide expense tracking app. 
 
 ### Navigation
 

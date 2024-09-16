@@ -1,5 +1,5 @@
 import { useContext, useLayoutEffect } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import IconButton from '../components/UI/IconButton';
 import { GlobalStyles } from '../constants/styles';
 import { ExpensesContext } from '../store/expenses-context';
@@ -11,7 +11,11 @@ function ManageExpense({ route, navigation }) {
 
     const expensesCtx = useContext(ExpensesContext);
 
+    const selectedExpense = expensesCtx.expenses.find((expense) => {
+        return expense.id === expenseIdSelected;
+    })
 
+    console.log(selectedExpense);
     useLayoutEffect(() => {
         navigation.setOptions({
             title: expenseIdSelected === 'NEW' ? 'Add Expense' : 'Manage Expense',
@@ -20,7 +24,7 @@ function ManageExpense({ route, navigation }) {
 
     function deleteExpense() {
         expensesCtx.deleteExpense(expenseIdSelected);
-        alert("Expense deleted");
+        Alert.alert("Expense deleted");
         navigation.goBack();
     }
 
@@ -28,20 +32,14 @@ function ManageExpense({ route, navigation }) {
         navigation.goBack();
     }
 
-    function confirmHandler() {
-        const confirmDate = new Date('2024-09-08');
+    function confirmHandler(expenseData) {
+        //const confirmDate = new Date('2024-09-08');
         console.log(isEditing)
         if (isEditing) {
-            expensesCtx.updateExpense(expenseIdSelected,
-                {
-                    description: 'Updated expense',
-                    amount: 29.99,
-                    date: confirmDate,
-                }
-            );
+            expensesCtx.updateExpense(expenseIdSelected,expenseData);
         } else {
-            const newExpense = { description: 'Test expense', amount: 19.99, date: confirmDate }
-            expensesCtx.addExpense(newExpense);
+            //const newExpense = { description: 'Test expense', amount: 19.99, date: confirmDate }
+            expensesCtx.addExpense(expenseData);
         }
         navigation.goBack();
     }
@@ -53,7 +51,8 @@ function ManageExpense({ route, navigation }) {
             <ExpenseForm
                 buttonName={isEditing ? 'Update' : 'Add'}
                 cancelHandler={cancelHandler}
-                confirmHandler={confirmHandler}
+                onSubmit={confirmHandler}
+                expenseData = {selectedExpense}
             />
         </View>
         {isEditing && (
