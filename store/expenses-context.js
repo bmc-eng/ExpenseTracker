@@ -44,6 +44,7 @@ export const ExpensesContext = createContext({
     expenses: [],
     addExpense: ({description, amount, date}) => {},
     deleteExpense: (id) => {},
+    setExpenses: (expenses) => {},
     updateExpense: (id, {description, amount, date} ) => {},
 });
 
@@ -86,11 +87,16 @@ function ExpensesContextProvider({children}) {
         console.log(expensesState);
     }
 
+    function setExpenses(expenses) {
+        dispatch({type:'SET', payload: expenses});
+    }
+
     const value = {
         expenses: expensesState,
         addExpense: addExpense,
         deleteExpense: deleteExpense,
-        updateExpense: updateExpense
+        updateExpense: updateExpense,
+        setExpenses: setExpenses
     };
     
     return <ExpensesContext.Provider value={value}>{children}</ExpensesContext.Provider>
