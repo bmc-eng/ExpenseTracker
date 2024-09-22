@@ -3,7 +3,7 @@ import ExpensesSummary from "./ExpensesSummary"
 import ExpensesList from "./ExpensesList"
 import { GlobalStyles } from "../../constants/styles"
 
-function ExpensesOutput({expenses, expensesPeriod, fallbackText}) {
+function ExpensesOutput({expenses, expensesPeriod, fallbackText, onPress}) {
     let content = <Text style={styles.infoText}>{fallbackText}</Text>
 
     if (expenses.length > 0) {
@@ -11,7 +11,7 @@ function ExpensesOutput({expenses, expensesPeriod, fallbackText}) {
     }
 
     return <View style={styles.container}>
-        <ExpensesSummary expenses={expenses} periodName={expensesPeriod}/>
+        <ExpensesSummary expenses={expenses} periodName={expensesPeriod} pressed={onPress}/>
         {content}
     </View>
 }

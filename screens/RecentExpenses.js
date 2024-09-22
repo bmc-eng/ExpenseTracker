@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import ExpensesOutput from '../components/Expenses/ExpensesOutput';
 import { ExpensesContext } from '../store/expenses-context';
 import { getDateMinusDays } from '../utils/dates';
@@ -6,15 +6,33 @@ import { getDateMinusDays } from '../utils/dates';
 function RecentExpenses() {
     const expensesCtx = useContext(ExpensesContext);
 
+    const [period, setPeriod] = useState(7)
+
+
+    function changePeriodicity(){
+        console.log("called periodicity change")
+        if (period === 7) {
+            setPeriod(30);
+        } else {
+            setPeriod(7)
+        }
+    }
+
     const recentExpenses = expensesCtx.expenses.filter((expenses) => {
         const today = new Date();
-        const date7DaysAgo = getDateMinusDays(today, 7)
-        return expenses.date > date7DaysAgo;
+        const dateXDaysAgo = getDateMinusDays(today, period)
+        return expenses.date > dateXDaysAgo;
     });
+
+    let expensePeriod = "Last " + period + " Days"
+    const fallbackText = "No expenses in the last " + period  + " days" 
+
+
     return <ExpensesOutput
         expenses={recentExpenses}
-        expensesPeriod="Last 7 Days"
-        fallbackText="No expenses in the last 7 days" />;
+        expensesPeriod={expensePeriod}
+        fallbackText={fallbackText} 
+        onPress={changePeriodicity}/>;
 }
 
 export default RecentExpenses;

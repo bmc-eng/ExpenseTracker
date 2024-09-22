@@ -1,16 +1,18 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { GlobalStyles } from "../../constants/styles";
 
-function ExpensesSummary({ expenses, periodName }) {
+function ExpensesSummary({ expenses, periodName, pressed }) {
     const expensesSum = expenses.reduce((sum, expense) => {
         return sum + expense.amount
-    },0);
+    }, 0);
 
 
-    return <View style={styles.container}>
-        <Text styles={styles.period}>{periodName}</Text>
-        <Text styles={styles.sum}>£{expensesSum.toFixed(2)}</Text>
-    </View>
+    return <Pressable onPress={ pressed}>
+        <View style={styles.container}>
+            <Text styles={styles.period}>{periodName}</Text>
+            <Text styles={styles.sum}>£{expensesSum.toFixed(2)}</Text>
+        </View>
+    </Pressable>
 }
 
 export default ExpensesSummary;
@@ -25,7 +27,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     period: {
-        fontSize:12,
+        fontSize: 12,
         color: GlobalStyles.colors.primary400,
         fontWeight: 'bold'
     },
