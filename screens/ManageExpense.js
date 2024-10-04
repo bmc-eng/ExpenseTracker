@@ -1,16 +1,18 @@
-import { useContext, useLayoutEffect } from 'react';
+import { useContext, useLayoutEffect, useState } from 'react';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import IconButton from '../components/UI/IconButton';
 import { GlobalStyles } from '../constants/styles';
 import { ExpensesContext } from '../store/expenses-context';
 import ExpenseForm from '../components/ManageExpense/ExpenseForm';
 import { storeExpense, updateExpense, deleteExpense, deleteExpenseFromDB } from '../utils/http';
+import LoadingOverlay from '../components/UI/LoadingOverlay';
 
 function ManageExpense({ route, navigation }) {
     const expenseIdSelected = route.params.expenseId;
     const isEditing = expenseIdSelected !== 'NEW'
 
     const expensesCtx = useContext(ExpensesContext);
+    const [isSending, setIsSending] = useState(false);
 
     const selectedExpense = expensesCtx.expenses.find((expense) => {
         return expense.id === expenseIdSelected;
@@ -23,9 +25,17 @@ function ManageExpense({ route, navigation }) {
         })
     }, [navigation]);
 
+    if(isSending){
+        return <LoadingOverlay />
+    }
+    
     async function deleteExpense() {
         expensesCtx.deleteExpense(expenseIdSelected);
+
+        setIsSending(true);
         await deleteExpenseFromDB(expenseIdSelected);
+        setIsSending(false);
+
         Alert.alert("Expense deleted");
         navigation.goBack();
     }
@@ -35,16 +45,17 @@ function ManageExpense({ route, navigation }) {
     }
 
     async function confirmHandler(expenseData) {
-        //const confirmDate = new Date('2024-09-08');
-        console.log(isEditing)
+        
+        setIsSending(true);
         if (isEditing) {
             expensesCtx.updateExpense(expenseIdSelected,expenseData);
             await updateExpense(expenseIdSelected, expenseData);
         } else {
-            //const newExpense = { description: 'Test expense', amount: 19.99, date: confirmDate }
             const id = await storeExpense(expenseData);
             expensesCtx.addExpense({...expenseData, id: id});
+            setIsSending
         }
+        setIsSending(false);
         navigation.goBack();
     }
 
