@@ -6,9 +6,10 @@ import { useState } from "react";
 
 function ExpenseForm({ cancelHandler, onSubmit, buttonName, expenseData }) {
 
+    const todaysDate = new Date()
     const [formState, setFormState] = useState({
         amount: expenseData  ? expenseData.amount.toString() : '',
-        date: expenseData  ? expenseData.date.toISOString().slice(0, 10) : '',
+        date: expenseData  ? expenseData.date.toISOString().slice(0, 10) : todaysDate.toISOString().slice(0,10),
         description: expenseData  ? expenseData.description : ''
     });
 

@@ -1,57 +1,20 @@
 import { createContext, useReducer } from "react";
 
-const TEST_EXPENSES = [
-    {
-        id: 'e1',
-        description: 'a pair of shoes',
-        amount: 59.99,
-        date: new Date('2024-08-29')
-    },
-    {
-        id: 'e2',
-        description: 'a pair of trousers',
-        amount: 98.54,
-        date: new Date('2024-08-28')
-    },
-    {
-        id: 'e3',
-        description: 'some bananas',
-        amount: 3.50,
-        date: new Date('2024-08-20')
-    },
-    {
-        id: 'e4',
-        description: 'a membership to the gym',
-        amount: 45.00,
-        date: new Date('2024-08-26')
-    },
-    {
-        id: 'e5',
-        description: 'a book',
-        amount: 24.99,
-        date: new Date('2024-09-02')
-    },
-    {
-        id: 'e6',
-        description: 'another book',
-        amount: 12.50,
-        date: new Date('2024-09-05')
-    }
-]
-
 
 export const ExpensesContext = createContext({
     expenses: [],
     addExpense: ({description, amount, date}) => {},
     deleteExpense: (id) => {},
+    setExpenses: (expenses) => {},
     updateExpense: (id, {description, amount, date} ) => {},
 });
 
 function expensesReducer(state, action) {
     switch (action.type) {
         case 'ADD':
-            const id = new Date().toString() + Math.random().toString();
-            return [{id: id, ...action.payload}, ...state];
+            return [action.payload, ...state];
+        case 'SET':
+            return action.payload.reverse();
         case 'UPDATE':
             const updatableExpenseIndex = state.findIndex(
                 (expense) => expense.id === action.payload.id);
@@ -69,7 +32,7 @@ function expensesReducer(state, action) {
 
 
 function ExpensesContextProvider({children}) {
-    const [expensesState, dispatch] = useReducer(expensesReducer, TEST_EXPENSES);
+    const [expensesState, dispatch] = useReducer(expensesReducer, []);
 
     function addExpense(expenseData){
         dispatch({type: 'ADD', payload: expenseData });
@@ -86,11 +49,16 @@ function ExpensesContextProvider({children}) {
         console.log(expensesState);
     }
 
+    function setExpenses(expenses) {
+        dispatch({type:'SET', payload: expenses});
+    }
+
     const value = {
         expenses: expensesState,
         addExpense: addExpense,
         deleteExpense: deleteExpense,
-        updateExpense: updateExpense
+        updateExpense: updateExpense,
+        setExpenses: setExpenses
     };
     
     return <ExpensesContext.Provider value={value}>{children}</ExpensesContext.Provider>
