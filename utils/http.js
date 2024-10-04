@@ -10,12 +10,12 @@ export async function fetchExpenses() {
     const response = await axios.get(BACKEND_URL + 'expenses.json');
 
     const expenses = [];
-
+    console.log(response);
     for (const key in response.data){
         const expenseObj = {
             id: key,
             amount: response.data[key].amount,
-            date: response.data[key].date,
+            date: new Date(response.data[key].date),
             description: response.data[key].description
 
         };

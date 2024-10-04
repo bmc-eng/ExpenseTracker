@@ -1,13 +1,21 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import ExpensesOutput from '../components/Expenses/ExpensesOutput';
 import { ExpensesContext } from '../store/expenses-context';
 import { getDateMinusDays } from '../utils/dates';
+import { fetchExpenses } from '../utils/http';
 
 function RecentExpenses() {
     const expensesCtx = useContext(ExpensesContext);
 
     const [period, setPeriod] = useState(7)
 
+    useEffect(() => {
+        async function getExpenses (){
+            const expenses = await fetchExpenses();
+            expensesCtx.setExpenses(expenses);
+        }
+        getExpenses();
+    }, []) ;
 
     function changePeriodicity(){
         console.log("called periodicity change")
