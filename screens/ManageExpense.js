@@ -4,7 +4,7 @@ import IconButton from '../components/UI/IconButton';
 import { GlobalStyles } from '../constants/styles';
 import { ExpensesContext } from '../store/expenses-context';
 import ExpenseForm from '../components/ManageExpense/ExpenseForm';
-import { storeExpense } from '../utils/http';
+import { storeExpense, updateExpense, deleteExpense, deleteExpenseFromDB } from '../utils/http';
 
 function ManageExpense({ route, navigation }) {
     const expenseIdSelected = route.params.expenseId;
@@ -23,8 +23,9 @@ function ManageExpense({ route, navigation }) {
         })
     }, [navigation]);
 
-    function deleteExpense() {
+    async function deleteExpense() {
         expensesCtx.deleteExpense(expenseIdSelected);
+        await deleteExpenseFromDB(expenseIdSelected);
         Alert.alert("Expense deleted");
         navigation.goBack();
     }
@@ -33,15 +34,16 @@ function ManageExpense({ route, navigation }) {
         navigation.goBack();
     }
 
-    function confirmHandler(expenseData) {
+    async function confirmHandler(expenseData) {
         //const confirmDate = new Date('2024-09-08');
         console.log(isEditing)
         if (isEditing) {
             expensesCtx.updateExpense(expenseIdSelected,expenseData);
+            await updateExpense(expenseIdSelected, expenseData);
         } else {
             //const newExpense = { description: 'Test expense', amount: 19.99, date: confirmDate }
-            storeExpense(expenseData);
-            expensesCtx.addExpense(expenseData);
+            const id = await storeExpense(expenseData);
+            expensesCtx.addExpense({...expenseData, id: id});
         }
         navigation.goBack();
     }
