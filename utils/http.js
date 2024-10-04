@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BACKEND_URL = "https://react-native-expense-fb495-default-rtdb.firebaseiocom/"
+const BACKEND_URL = "https://react-native-expense-fb495-default-rtdb.firebaseio.com/"
 
 export async function storeExpense(expenseData) {
     // get the id from firebase
