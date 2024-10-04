@@ -4,22 +4,37 @@ import { ExpensesContext } from '../store/expenses-context';
 import { getDateMinusDays } from '../utils/dates';
 import { fetchExpenses } from '../utils/http';
 import LoadingOverlay from '../components/UI/LoadingOverlay';
+import ErrorOverlay from '../components/UI/ErrorOverlay';
 
 function RecentExpenses() {
     const expensesCtx = useContext(ExpensesContext);
 
     const [period, setPeriod] = useState(7)
     const [isFetching, setFetchingState] = useState(true);
+    const [error, setError] = useState();
 
     useEffect(() => {
         async function getExpenses (){
             setFetchingState(true)
-            const expenses = await fetchExpenses();
+            try {
+                const expenses = await fetchExpenses();
+                expensesCtx.setExpenses(expenses);
+            } catch (error){
+                setError("Could not fetch expenses");
+            }
             setFetchingState(false);
-            expensesCtx.setExpenses(expenses);
+            
         }
         getExpenses();
     }, []) ;
+
+    function errorHandler(){
+        setError(null);
+    }
+
+    if (error && !isFetching){
+        return <ErrorOverlay message={error} errorHandler={errorHandler}/>
+    }
 
     function changePeriodicity(){
         console.log("called periodicity change")
